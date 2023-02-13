@@ -126,14 +126,21 @@ export default {
   },
   data () {
     return {
+      // 当前激活 tab 面板的 key
       customActiveKey: 'tab1',
+      // 控制按钮的失效和载入状态
       loginBtn: false,
       // login type: 0 email, 1 username, 2 telephone
       loginType: 0,
+      // 控制警告提示的显示与隐藏
       isLoginError: false,
+      // 控制两步验证的显示的开关
       requiredTwoStepCaptcha: false,
+      // 控制两步验证对话框是否显示
       stepCaptchaVisible: false,
+      // 创建表单
       form: this.$form.createForm(this),
+      // 控制botton状态
       state: {
         time: 60,
         loginBtn: false,
@@ -171,8 +178,11 @@ export default {
       // this.form.resetFields()
     },
     handleSubmit (e) {
+      // 阻止默认行为 阻止表单默认行为中的页面刷新和跳转
       e.preventDefault()
+      // 解构语法
       const {
+        // 双重解构，解构出form和validateFields
         form: { validateFields },
         state,
         customActiveKey,
