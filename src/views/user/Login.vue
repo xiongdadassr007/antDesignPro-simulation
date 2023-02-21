@@ -145,7 +145,7 @@ export default {
         time: 60,
         loginBtn: false,
         // login type: 0 email, 1 username, 2 telephone
-        loginType: 0,
+        loginType: 0, // 正则校验，0成功，1失败
         smsSendBtn: false
       }
     }
@@ -163,8 +163,11 @@ export default {
   methods: {
     ...mapActions(['Login', 'Logout']),
     // handler
+    // 校验用户输入字符
     handleUsernameOrEmail (rule, value, callback) {
       const { state } = this
+      // '[a-zA-Z0-9_-]+' 是指大小写字母、数字、下划线、横线中的一个字符至少出现一次
+      // '(\.[a-zA-Z0-9_-]{2,3}){1,2}' 内部'[a-zA-Z0-9_-]'2到3次，整体 '.[a-zA-Z0-9_-]' 1到2次
       const regex = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/
       if (regex.test(value)) {
         state.loginType = 0
@@ -198,6 +201,7 @@ export default {
           console.log('login form', values)
           const loginParams = { ...values }
           delete loginParams.username
+          // !0 为 true
           loginParams[!state.loginType ? 'email' : 'username'] = values.username
           loginParams.password = md5(values.password)
           Login(loginParams)
